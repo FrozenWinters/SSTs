@@ -1,6 +1,10 @@
 # Semi-Simplicial Types
 
-### Contents
+**Summary**:
+
+*a reaserch documment describing progress thus far*
+
+Source: [SSTs](SSTs.pdf)
 
 **Demo**:
 
