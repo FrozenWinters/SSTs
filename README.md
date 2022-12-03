@@ -1,5 +1,7 @@
 # Semi-Simplicial Types
 
+### *Joint work by Astra Kolomatskaia and Michael Shulman*
+
 **Summary**:
 
 *a reaserch documment describing progress thus far*
