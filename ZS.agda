@@ -133,7 +133,6 @@ double : ℕ → ℕ
 double zero = zero
 double (suc n) = suc (suc (double n))
 
-
 -- produces a context in 𝒯 from a Z-section of 𝐸𝑋 𝒯
 
 𝑓𝑙𝑎𝑡 : {𝒯₁ : TyStr ℓ₁} {𝒯₂ : TyStr ℓ₂} {𝑓 : TyMor 𝒯₁ 𝒯₂}
