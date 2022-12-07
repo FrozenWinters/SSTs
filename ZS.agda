@@ -321,40 +321,40 @@ S : SStr (idTyMor (𝒰 ℓ)) Z 𝒲-𝒰
 𝑓𝑢𝑛ˢ S a₀ a₁ = a₀ ≡ a₁
 𝑢𝑝ˢ S a = S' fst a snd
 
-Δ-Sing : (X : Type ℓ) → TyStr ℓ
-Δ-Sing X = Δ S (∅ ⊹ X)
+Sing : (X : Type ℓ) → TyStr ℓ
+Sing X = Δ S (∅ ⊹ X)
 
-postulate
-  X : Type lzero
+-- here is the result of applying the simplex extraction algorithm to Sing
+-- the following fields were produced by starting with:
+-- 𝑡𝑦 (𝑒𝑥𝑠 (Sing X) ∅) = 𝑡𝑦 (Sing X) = X
+-- then we take x : X, and add that to the empty context; we have:
+-- 𝑡𝑦 (𝑒𝑥𝑠 (Sing X) (∅ ⊹ x)) = X
+-- so we take y : X, and then see that:
+-- 𝑡𝑦 (𝑒𝑥𝑠 (Sing X) (∅ ⊹ x ⊹ y)) = x ≡ y
+-- we repeat until we fill in a 3-simplex
+-- the well-formed-context entry shows that the extracted types are right!
 
-  x : X
+record 3-simplex (X : Type) : Type where
+  field
+    x : X
 
-  y : X
-  α : x ≡ y
-  
-  z : X
-  β : y ≡ z
-  γ : x ≡ z
-  𝑓₀ : PathP (λ i → x ≡ β i) α γ
-    -- 𝑡𝑦 (𝑒𝑥𝑠 (Δ-Sing X) (∅ ⊹ x ⊹ y ⊹ α ⊹ z ⊹ β ⊹ γ))
+    y : X
+    α : x ≡ y
 
-  w : X
-  δ : z ≡ w
-  ε : y ≡ w
-  𝑓₁ : PathP (λ i → y ≡ δ i) β ε
-    -- 𝑡𝑦 (𝑒𝑥𝑠 (Δ-Sing X)
-    --  (∅ ⊹ x ⊹ y ⊹ α ⊹ z ⊹ β ⊹ γ ⊹ 𝑓₀ ⊹ w ⊹ δ ⊹ ε))
-  ζ : x ≡ w
-  𝑓₂ : PathP (λ i → x ≡ δ i) γ ζ
-    -- 𝑡𝑦 (𝑒𝑥𝑠 (Δ-Sing X)
-    --  (∅ ⊹ x ⊹ y ⊹ α ⊹ z ⊹ β ⊹ γ ⊹ 𝑓₀ ⊹ w ⊹ δ ⊹ ε ⊹ 𝑓₁ ⊹ ζ))
-  𝑓₃ : PathP (λ i → x ≡ ε i) α ζ
-    -- 𝑡𝑦 (𝑒𝑥𝑠 (Δ-Sing X)
-    --  (∅ ⊹ x ⊹ y ⊹ α ⊹ z ⊹ β ⊹ γ ⊹ 𝑓₀ ⊹ w ⊹ δ ⊹ ε ⊹ 𝑓₁ ⊹ ζ ⊹ 𝑓₂))
-  Δ₀ : PathP (λ i → PathP (λ j → x ≡ 𝑓₁ i j) α (𝑓₂ i)) 𝑓₀ 𝑓₃
-    -- 𝑡𝑦 (𝑒𝑥𝑠 (Δ-Sing X)
-    --  (∅ ⊹ x ⊹ y ⊹ α ⊹ z ⊹ β ⊹ γ ⊹ 𝑓₀ ⊹ w ⊹ δ ⊹ ε ⊹ 𝑓₁ ⊹ ζ ⊹ 𝑓₂ ⊹ 𝑓₃))
+    z : X
+    β : y ≡ z
+    γ : x ≡ z
+    𝑓₀ : PathP (λ i → x ≡ β i) α γ
 
-well-formed =
-  𝑒𝑥𝑠 (Δ-Sing X)
-    (∅ ⊹ x ⊹ y ⊹ α ⊹ z ⊹ β ⊹ γ ⊹ 𝑓₀ ⊹ w ⊹ δ ⊹ ε ⊹ 𝑓₁ ⊹ ζ ⊹ 𝑓₂ ⊹ 𝑓₃ ⊹ Δ₀)
+    w : X
+    δ : z ≡ w
+    ε : y ≡ w
+    𝑓₁ : PathP (λ i → y ≡ δ i) β ε
+    ζ : x ≡ w
+    𝑓₂ : PathP (λ i → x ≡ δ i) γ ζ
+    𝑓₃ : PathP (λ i → x ≡ ε i) α ζ
+    Δ₀ : PathP (λ i → PathP (λ j → x ≡ 𝑓₁ i j) α (𝑓₂ i)) 𝑓₀ 𝑓₃
+
+  well-formed-context : 𝐶𝑡𝑥 (Sing X) 15
+  well-formed-context =
+    ∅ ⊹ x ⊹ y ⊹ α ⊹ z ⊹ β ⊹ γ ⊹ 𝑓₀ ⊹ w ⊹ δ ⊹ ε ⊹ 𝑓₁ ⊹ ζ ⊹ 𝑓₂ ⊹ 𝑓₃ ⊹ Δ₀
