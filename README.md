@@ -6,7 +6,7 @@
 
 *a reaserch documment describing progress thus far*
 
-Source: [SSTs](SSTs.pdf)
+Source: [SSTs](SSTs.pdf), [HoTTEST slides](HoTTESTslides.pdf)
 
 **Demo**:
 
